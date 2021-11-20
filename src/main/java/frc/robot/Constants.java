@@ -16,8 +16,19 @@ public final class Constants {
 
     public static final int LeftDriveTalonPort = 2;
     public static final int RightDriveTalonPort =3;
+   
     public final class White_DriveTrainPorts{
         
     };
-}
+    public static final class JoystickAxis{
+        public static final int YAxis = 1;
+        public static final int XAxis = 0;
+
+    };
+    public static final class JoystickUSB{
+        public static final int LeftJoy = 0;
+        public static final int RightJoy = 1;
+    };
+} 
+
     

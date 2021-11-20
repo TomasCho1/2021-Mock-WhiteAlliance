@@ -6,9 +6,22 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.*;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import fr.robot.subsystems.White_DriveTrain;
+import edu.wpi.first.wpilibj.Joystick;
+
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+
+import java.util.Arrays;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,14 +31,31 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private Joystick j1 = new Joystick(Constants.JoystickUSB.LeftJoy);
+  private Joystick j2 = new Joystick(Constants.JoystickUSB.RightJoy);
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private static final White_DriveTrain DriveTrain = new White_DriveTrain();
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final TankDrive tankDrive = new TankDrive(DriveTrain, j1, j2 );
+  private final SequentialCommandGroup YellowPath;
+  private final PIDturn PIDTurn; 
+  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    DriveTrain.setDefaultCommand(tankDrive);
+
+    PIDTurn = new PIDturn(DriveTrain, 90);
+
+    YellowPath = new SequentialCommandGroup(new PIDDriveForward(0.5), PIDTurn, new PIDDriveForward(-0.5));
+
     // Configure the button bindings
+
+    
     configureButtonBindings();
+  }
+  public static White_DriveTrain getDriveTrain(){
+    return DriveTrain;
   }
 
   /**
@@ -43,6 +73,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    return new PIDDriveForward(1);
+    
   }
 }

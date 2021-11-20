@@ -9,20 +9,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import fr.robot.subsystems.White_DriveTrain;
 import frc.robot.Constants;
 
-public class TankDrive extends CommandBase {
+public class ArcadeDrive extends CommandBase {
+  private final White_DriveTrain white_DriveTrain;
+  private final Joystick joystick; 
 
-  private final White_DriveTrain _driveTrain;
-  private final Joystick _leftJoystick;
-  private final Joystick _rightJoystick;
-  
-  /** Creates a new TankDrive. */
-  public TankDrive(White_DriveTrain dt, Joystick lj, Joystick rj) {
+  /** Creates a new ArcadeDrive. */
+  public ArcadeDrive(White_DriveTrain dt, Joystick j) {
+    white_DriveTrain = dt;
+    joystick = j; 
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    _driveTrain = dt;
-    _leftJoystick = lj;
-    _rightJoystick = rj;
-
-    addRequirements(_driveTrain);
+    addRequirements(white_DriveTrain);
   }
 
   // Called when the command is initially scheduled.
@@ -32,8 +29,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    _driveTrain.tankDrive(-0.8 * _leftJoystick.getRawAxis(Constants.JoystickAxis.YAxis),
-                          -0.8 * _rightJoystick.getRawAxis(Constants.JoystickAxis.YAxis));
+    white_DriveTrain.arcadeDrive(0.8 * joystick.getRawAxis(Constants.JoystickAxis.XAxis),
+    -0.8 joystick.getRawAxis(Constants.JoystickAxis.YAxis)); 
   }
 
   // Called once the command ends or is interrupted.

@@ -4,25 +4,14 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import fr.robot.subsystems.White_DriveTrain;
-import frc.robot.Constants;
 
-public class TankDrive extends CommandBase {
-
-  private final White_DriveTrain _driveTrain;
-  private final Joystick _leftJoystick;
-  private final Joystick _rightJoystick;
-  
-  /** Creates a new TankDrive. */
-  public TankDrive(White_DriveTrain dt, Joystick lj, Joystick rj) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    _driveTrain = dt;
-    _leftJoystick = lj;
-    _rightJoystick = rj;
-
-    addRequirements(_driveTrain);
+public class PIDturn extends CommandBase {
+  /** Creates a new PIDturn. */
+  private final White_DriveTrain white_DriveTrain; 
+  public PIDturn(White_DriveTrain dt) {
+    white_DriveTrain = dt;
   }
 
   // Called when the command is initially scheduled.
@@ -31,10 +20,7 @@ public class TankDrive extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    _driveTrain.tankDrive(-0.8 * _leftJoystick.getRawAxis(Constants.JoystickAxis.YAxis),
-                          -0.8 * _rightJoystick.getRawAxis(Constants.JoystickAxis.YAxis));
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
